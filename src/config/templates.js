@@ -29,8 +29,8 @@ const templates  = {
         
         margin: .2em;
     }
-    .green{
-        color: green;
+    .green *{
+        color: green !important;
     }
     `,
     smooth: `

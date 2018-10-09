@@ -12,7 +12,7 @@ function custom(markdown, customElements ,header='<head><title>static page</titl
           let test = item;
           output.push({
             element: split,
-            data: text,
+            data: marked(text),
             item
           });
         })
