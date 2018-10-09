@@ -1,0 +1,115 @@
+*{
+    box-sizing: border-box;
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+    background-color: #373d49;
+}
+App{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: #35495e;
+}
+
+#banner{
+    margin-top: 0;
+    background-color: #35495e;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#banner h1{
+    margin: 0;
+    color: #42b883;
+    padding: .5em;
+}
+
+#banner i {
+    display: block;
+    font-size: 2em;
+    padding-top: .5em;
+    padding-right: 1em;
+    color: white;
+}
+
+.page-wrapper{
+    display: flex;
+    padding-left:.5em;
+    padding-right:.5em;
+    justify-content: space-around;
+}
+
+.md-viewer{
+    flex-basis: 49%;
+    border: 1px solid black;
+    min-height: 90vh;
+    overflow: scroll;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+}
+
+.md-editor{
+    flex-basis: 49%;
+    resize: none;
+    overflow: scroll;
+    padding: 5px;
+    font-size: 1.3em;
+}
+
+#settings {
+    width: 12rem;
+    position: absolute;
+    top: 3em;
+    right: 0;
+    height: 80vh;
+    background-color: #35495e;
+    display: flex;
+    flex-direction: column;
+    animation: .8s swingleft forwards;
+    
+}
+
+
+#settings > * {
+    color: #42b883;
+    padding-left: .4em;
+    margin: .5em;
+    animation-delay: 7s;
+    animation: 2s fadein forwards;
+}
+
+#settings a {
+    text-decoration: none;
+    color: #42b883;
+    font-size: 1.2em;
+}
+
+#settings a:hover {
+    text-decoration: underline;
+}
+
+
+@keyframes swingleft{
+    from {
+        width: 0;
+        right: 10;
+    }
+    to {
+        width: 12rem;
+        right: 0;
+    }
+}
+
+@keyframes fadein{
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
