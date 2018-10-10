@@ -1,12 +1,26 @@
 export default{
-    props: ['templates', 'handle'],
+    props: ['styled', 'text', 'handle', 'docdata'],
     template: `
     <div id="settings">
         <h3>Settings</h3>
-        <label>Template Type: </label>
-        <select v-on:change="(e)=>handle.changeTemplate(e.target.value)">
-            <option v-for="item of Object.keys(templates)" :value="item">{{item}}</option>
+        <hr />
+        <label>Template Type:
+        <select v-on:change="(e)=>handle.changeStyledTemplate(e.target.value)">
+            <option v-for="item of Object.keys(styled)" :value="item">{{item}}</option>
         </select>
-        <a href="#" v-on:click="()=>handle.download('html')">Download HTML</a>
+        </label>
+
+        <label>Template Text:
+        <select v-on:change="(e)=>handle.changeTextTemplate(e.target.value)">
+            <option v-for="item of Object.keys(text)" :value="item">{{item}}</option>
+        </select>
+        </label>
+        
+        <label>Doc Name:
+        <input type='text' :value='docdata.name'></input>
+        </label>
+
+        <button v-on:click="handle.makeP()">Generate PDF</button>
+        <button v-on:click="()=>handle.download('html')">Download HTML</button>
     </div>`
 }

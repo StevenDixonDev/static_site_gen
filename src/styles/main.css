@@ -36,6 +36,11 @@ App{
     color: white;
 }
 
+#banner i:hover{
+    color: #42b883;
+    cursor: pointer;
+}
+
 .page-wrapper{
     display: flex;
     padding-left:.5em;
@@ -71,22 +76,25 @@ App{
     display: flex;
     flex-direction: column;
     animation: .8s swingleft forwards;
-    
 }
 
 
 #settings > * {
     color: #42b883;
-    padding-left: .4em;
+    padding-left: .1em;
     margin: .5em;
     animation-delay: 7s;
     animation: 2s fadein forwards;
+    font-size: 1.2em;
 }
 
-#settings a {
-    text-decoration: none;
-    color: #42b883;
+#settings button{
     font-size: 1.2em;
+    cursor: pointer;
+}
+
+#settings select{
+    width: 100%;;
 }
 
 #settings a:hover {
