@@ -1,5 +1,5 @@
 function custom(markdown, customElements ,header='<head><title>static page</title></head>', styles= ''){
-    let matchString = /:{3}\s(\w*)([\w\s\"\-\[\]\(\)\/\.\*\+\_\=\{\}\|\/\\\.\,\<\>\&\^\%\$\#\@\!\~\`\?\d]*):{3}$/gm;
+    let matchString = /:::\s[a-z]*\n[\s\S]*?\n:::/gm;
     let matched = markdown.match(matchString) || [];
     let output = [];
     if (matched.length > 0) {
@@ -9,7 +9,6 @@ function custom(markdown, customElements ,header='<head><title>static page</titl
           text.splice(0, 1);
           text = text.join('\n');
           let split = item.match(/:{3}(.*)[\s]/g)[0].replace(/:::/, '').trim();
-          let test = item;
           output.push({
             element: split,
             data: marked(text),
@@ -23,8 +22,11 @@ function custom(markdown, customElements ,header='<head><title>static page</titl
 function replaceCustom(markdown, filtered, customElements){
     let temp = markdown.slice();
     for (let items in filtered) {
-        temp = markdown.replace(filtered[items].item, customElements[filtered[items].element](filtered[items].data));
+        //console.log(filtered[items].item);
+        temp = temp.replace(filtered[items].item, customElements[filtered[items].element](filtered[items].data));
+        
     }
+    
     return temp;
 }
 

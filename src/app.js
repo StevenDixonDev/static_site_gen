@@ -28,13 +28,18 @@ export default {
         settings
     },
     methods: {
-        update(data){
-            this.text = data;
+        insertTab(e){
+            if(e.keyCode === 9){
+                e.preventDefault();
+            }
+        },
+        update(e){
+            this.text = e.target.value;
             //console.log(this.templates[this.currentTemplate])
             let test = theMangler(this.text, customElements, this.header, `<style>${this.templates[this.currentTemplate]}</style>`)
-            this.markedText = test
+            this.markedText = test;
             //data + `<style>${this.templates[this.currentTemplate]}</style>`
-            console.log(test);
+            
         },
         generateCode(){
 
@@ -66,7 +71,7 @@ export default {
         <div>
         <banner :onClick="openMenu"/>
         <div class='page-wrapper'>
-            <mdEditor :change="update" :data="this.text"/>
+            <mdEditor :change="update" :tab="insertTab" :data="this.text"/>
             <mdViewer :data="this.markedText"/>
         </div>
             <settings v-if="this.menuStatus" :menu='this.menuStatus' :templates='this.templates' :handle='{changeTemplate, download}' />
