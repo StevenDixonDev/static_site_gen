@@ -65,7 +65,6 @@ export default {
         },
         download(type) {
             uriConvert(this.markedText).then((data) => {
-                let element = document.createElement('a');
                 let text = this.markedText.slice();
                 if (data !== 'done') {
                     if (data.length > 0) {
@@ -90,7 +89,19 @@ export default {
             });
         },
         makeP() {
-            makePDF(this.markedText, this.documentData.name);
+            uriConvert(this.markedText).then((data) => {
+                let text = this.markedText.slice();
+                if (data !== 'done') {
+                    if (data.length > 0) {
+                        data.forEach(item => {
+                            text = text.replace(item.url, item.uri);
+                        })
+                    } else {
+                        text = text.replace(data.url, data.uri)
+                    }
+                }
+            makePDF(text, this.documentData.name);
+        });
         }
     },
     template: `

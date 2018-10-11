@@ -11,6 +11,8 @@ const templates  = {
     }
     html, body{
         margin: 0;
+        
+        width: 100%;
     }
 
     body{

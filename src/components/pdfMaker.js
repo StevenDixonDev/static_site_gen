@@ -1,11 +1,21 @@
+function generate(data, filename = 'test') {
+  let newIframe = document.createElement("iframe");
+  newIframe.setAttribute("id", "rendered")
+  document.body.appendChild(newIframe);
+  setTimeout(() => {
+    let internals = newIframe.contentDocument || newIframe.contentWindow.document;
+    internals.body.innerHTML = data;
+    html2canvas(internals.body, {
+      scale: 2
+    }).then((canvas) => {
+      let pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 258);
+      pdf.save(filename);
+      document.body.removeChild(newIframe);
+    });
+  }, 10)
 
-function generate(data, filename='test'){
-		html2canvas(document.querySelector(".md-viewer").contentWindow.document.body, {
-            scale: 5, allowTaint: true, logging: true}).then(canvas => {
-              let pdf = new jsPDF('p', 'mm', 'a4');
-              pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
-              pdf.save(filename);
-            });
+  //document.body.removeChild(newIframe);
 }
 
 export default generate;

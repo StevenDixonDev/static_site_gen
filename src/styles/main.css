@@ -121,3 +121,9 @@ App{
         opacity: 1;
     }
 }
+
+#rendered{
+    visibility: hidden;
+    width: 650px;
+    height: 800px;
+}
