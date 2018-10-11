@@ -17,7 +17,7 @@ export default{
         </label>
         
         <label>Doc Name:
-        <input type='text' :value='docdata.name'></input>
+        <input type='text' v-on:keyup='(e)=>handle.updateDocName(e.target.value)' :value='docdata.name'></input>
         </label>
 
         <button v-on:click="handle.makeP()">Generate PDF</button>

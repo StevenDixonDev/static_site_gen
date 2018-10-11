@@ -127,3 +127,23 @@ App{
     width: 650px;
     height: 800px;
 }
+
+.pdfload{
+    position: absolute;
+    color: #42b883;
+    top: 35%;
+    left: 45%;
+    font-size: 10em;
+    z-index: 2;
+}
+
+.cover{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.486);
+    z-index: 1;
+
+}

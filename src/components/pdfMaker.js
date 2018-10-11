@@ -2,6 +2,12 @@ function generate(data, filename = 'test') {
   let newIframe = document.createElement("iframe");
   newIframe.setAttribute("id", "rendered")
   document.body.appendChild(newIframe);
+  let spinner = document.createElement("div");
+  spinner.setAttribute("class", "fa fa-spinner fa-spin pdfload");
+  document.body.appendChild(spinner);
+  let cover = document.createElement("div");
+  cover.setAttribute("class", "cover");
+  document.body.appendChild(cover);
   setTimeout(() => {
     let internals = newIframe.contentDocument || newIframe.contentWindow.document;
     internals.body.innerHTML = data;
@@ -12,6 +18,8 @@ function generate(data, filename = 'test') {
       pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 258);
       pdf.save(filename);
       document.body.removeChild(newIframe);
+      document.body.removeChild(cover);
+      document.body.removeChild(spinner);
     });
   }, 10)
 

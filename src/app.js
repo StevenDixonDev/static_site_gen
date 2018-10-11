@@ -55,7 +55,6 @@ export default {
         },
         changeStyledTemplate(value) {
             this.currentStyleTemplate = value;
-
             this.update(this.text);
         },
         changeTextTemplate(value) {
@@ -63,20 +62,23 @@ export default {
             document.querySelector('.md-editor').value = this.textTemplates[value];
             this.update(document.querySelector('.md-editor').value);
         },
+        updateDocName(name){
+            this.documentData.name = name;
+        },
         download(type) {
             uriConvert(this.markedText).then((data) => {
                 let text = this.markedText.slice();
                 if (data !== 'done') {
                     if (data.length > 0) {
                         data.forEach(item => {
-                            text = text.replace(item.url, item.uri);
+                            text = text.replace(`src="${item.url}"`, `src="${item.uri}"`);
                         })
                     } else {
                         text = text.replace(data.url, data.uri)
                     }
                 }
                 var file = new File([text], {type: "text/plain;charset=utf-8"});
-                saveAs(file, 'static.html')
+                saveAs(file, this.documentData.name+'.html')
 
                 /*    console.log(text)
                     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -111,7 +113,7 @@ export default {
             <mdEditor :change="update" :tab="insertTab" :data="this.text"/>
             <mdViewer :data="this.markedText"/>
         </div>
-            <settings v-if="this.menuStatus" :docdata='this.documentData' :styled='this.styledTemplates' :text='this.textTemplates' :handle='{changeStyledTemplate, changeTextTemplate, download, makeP}' />
+            <settings v-if="this.menuStatus" :docdata='this.documentData' :styled='this.styledTemplates' :text='this.textTemplates' :handle='{updateDocName, changeStyledTemplate, changeTextTemplate, download, makeP}' />
         </div>
     `
 }
