@@ -17,39 +17,89 @@ Title Here
 ### Here is how it works
 
 Information Here
+:::
 
 ---
 
-**learning** is fun.
-
-|table|table|table|
-|---|---|---|
-|here|here|here|
-
+    `,
+machineInfo: `
+::: title
+Machine Name
 :::
 
-::: single
-|table|table|table|table|table|
-|---|---|---|---|---|
-|here|here|here|here|here|
+::: nav
+[Battery](#battery)
+
+[Ports](#port-locations-and-subcards)
+
+[Storage/Memory](#storage-and-memory)
+
+[Docks](#docks)
+
+[OS](#operating-systems)
+
+[Links](#links)
 :::
+
+---
 
 ::: double
-we can learn alot about computers through here
 
-### we can do it!
+short info here
+
+![test](./src/config/placeholder.png)
+
 :::
 
+---
 
-::: triple
-![computer](https://news.nationalgeographic.com/content/dam/news/2018/05/17/you-can-train-your-cat/02-cat-training-NationalGeographic_1484324.ngsversion.1526587209178.adapt.1900.1.jpg)
+### Battery
 
-***Computers*** are really amazing things to learn about!
+battery info here
 
-![computer](https://news.nationalgeographic.com/content/dam/news/2018/05/17/you-can-train-your-cat/02-cat-training-NationalGeographic_1484324.ngsversion.1526587209178.adapt.1900.1.jpg)
+---
+
+### Port Locations and SubCards
+
+::: single
+| Model | Port | Location | Part location |
+| --- | --- | --- | --- |
+| name | --- | --- | --- |
 :::
-    `,
 
+---
+
+### Storage and Memory
+
+List of HDD and Memory
+
+---
+
+
+### Docks
+
+::: single
+| Dock Name | Compatible | 
+| --- | --- | 
+| name | Yes |
+:::
+
+---
+
+### Operating Systems
+
+list of os here
+
+---
+
+### Links
+
+::: double
+[HMM or User Guide]()
+
+[PSREF]()
+:::
+`
 }
 
 export default templates;

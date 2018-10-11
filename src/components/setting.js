@@ -20,6 +20,10 @@ export default{
         <input type='text' v-on:keyup='(e)=>handle.updateDocName(e.target.value)' :value='docdata.name'></input>
         </label>
 
+        <label>Page Title:
+        <input type='text' v-on:keyup='(e)=>handle.updatePageTitle(e.target.value)' :value='docdata.header'></input>
+        </label>
+
         <button v-on:click="handle.makeP()">Generate PDF</button>
         <button v-on:click="()=>handle.download('html')">Download HTML</button>
     </div>`

@@ -24,9 +24,7 @@ function replaceCustom(markdown, filtered, customElements){
     for (let items in filtered) {
         //console.log(filtered[items].item);
         temp = temp.replace(filtered[items].item, customElements[filtered[items].element](filtered[items].data));
-        
     }
-    
     return temp;
 }
 
@@ -43,9 +41,3 @@ function generateHtml(head, body, style){
 }
 
 export default custom;
-
-/*
-::: key
-sdfs
-:::
-*/

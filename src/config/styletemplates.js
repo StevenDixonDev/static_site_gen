@@ -9,15 +9,15 @@ const templates  = {
     hr{
         width: 100%;
     }
-    html, body{
+    html{
         margin: 0;
-        
         width: 100%;
     }
-
     body{
+        margin: auto;
         display: flex;
         flex-direction: column;
+        padding: 1em;
     }
     p{
         color: #373d49;
@@ -33,7 +33,7 @@ const templates  = {
         margin: 0.2em;
     }
     .body-div{
-        width: 90%;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
         margin-top: .5em;
@@ -71,7 +71,6 @@ const templates  = {
         color: #373d49;
     }
     .title *{
-
         font-size: 2em;
         margin: 0;
         padding-top: .2em;
@@ -83,7 +82,7 @@ const templates  = {
         content: '';
         background-color: #373d49;
         display: block;
-        width: 90%;
+        width: 100%;
         height: 3px;
         position: relative;
         bottom: 0;
@@ -102,8 +101,7 @@ const templates  = {
         border: 1px solid #373d49;
     }
     `,
-
-    sleek: `
+    machines: `
     *{
         font-family: Source Sans Pro,Helvetica Neue,Helvetica,Arial,sans-serif;
     }
@@ -113,14 +111,33 @@ const templates  = {
     hr{
         width: 100%;
     }
-    html, body{
+    html{
         margin: 0;
+        width: 100%;
+        background-color: black;
     }
     body{
+        background-color: white;
+        margin: auto;
+        max-width: 800px;
         display: flex;
         flex-direction: column;
+        padding: 1em;
+        border-radius: 5px;
+    }
+    .nav{
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+    }
+    .nav *{
+        color: green;
+        text-decoration: none;
+        margin-left: .5em;
+        margin-right: .5em;
     }
     p{
+        color: #373d49;
         font-size: 1rem;
         padding-left: .3em;
     }
@@ -130,55 +147,76 @@ const templates  = {
         color: #373d49;
         font-style: normal;
         font-weight: 600;
-        margin: 0.2em;
+        margin: 0.4em;
     }
-    .green {
-        color: green;
+    .body-div{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: .5em;
+        margin-bottom: .5em;
+    }
+    .single{
+        margin-top: .2em;
+        display: flex;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .single > *{
+        width: 100%;
     }
     .double{
         display: flex;
-        flex-direction: row;
         justify-content: space-around;
     }
-    .double > * {
-        width: 50%;
+    .double *{
+        flex-basis: 45%;
+        text-align: center;
     }
     .triple{
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
     }
-    .triple > * {
-        width: 33%;
+    .triple > *{
+        flex-basis: 33%;
     }
-    .title  {
-        text-align: center;
-        color: white;
-        background-color: black;
+    .title{
+        color: #373d49;
     }
     .title *{
         font-size: 2em;
-    }
-    pre{
-        color: white;
-        background-color: #565759;
-        border-radius: 8px;
-        width: auto;
-        padding: 1em;
-    }
-
-    `,
-    smooth: `
-    p{color: blue}
-    h1, h2, h3, h4, h5, h6 {font-family: sans-serif;}
-    .title  {
+        margin: 0;
+        padding-top: .2em;
         text-align: center;
-        color: blue;
-        background-color: black;
+        font-style: normal;
+        font-weight: 600;
         
     }
-    .title *{
-        font-size: 2em;
+    .title::after{
+        content: '';
+        background-color: #373d49;
+        display: block;
+        width: 100%;
+        height: 3px;
+        position: relative;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+    }
+    table{
+        border-collapse: collapse;
+        background-color: #e8e8e8;
+        border: 1px solid #373d49;
+        border-style: hidden;
+        border-radius: 5px;
+    }
+    td, th{
+        padding: .5em;
+        border: 1px solid #373d49;
     }
     `
 }

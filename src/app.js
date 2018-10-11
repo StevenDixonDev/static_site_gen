@@ -8,7 +8,7 @@ import theMangler from './components/custom-marker.js';
 import customElements from './config/customElements.js';
 import makePDF from './components/pdfMaker.js';
 import uriConvert from './components/urlReplacer.js';
-
+import customViewer from './components/custom-viewer.js';
 
 export default {
     data() {
@@ -20,10 +20,11 @@ export default {
             currentStyleTemplate: '',
             currentTextTemplate: '',
             menuStatus: false,
-            header: '<head><title>Custom Page</title></head>',
             documentData: {
-                name: 'newDocument'
-            }
+                name: 'newDocument',
+                header: 'Custom Page',
+            },
+            elements: {}
         }
     },
     mounted() {
@@ -31,13 +32,14 @@ export default {
         this.currentStyleTemplate = 'cgs';
         this.textTemplates = text_templates;
         this.currentTextTemplate = 'none';
-
+        this.elements = customElements;
     },
     components: {
         mdViewer,
         mdEditor,
         banner,
-        settings
+        settings,
+        customViewer
     },
     methods: {
         insertTab(e) {
@@ -47,7 +49,8 @@ export default {
         },
         update(e) {
             this.text = document.querySelector('.md-editor').value;
-            let test = theMangler(this.text, customElements, this.header, `<style>${this.styledTemplates[this.currentStyleTemplate]}</style>`);
+            let head = `<head><title>${this.documentData.header}</title></head>`
+            let test = theMangler(this.text, customElements, head, `<style>${this.styledTemplates[this.currentStyleTemplate]}</style>`);
             this.markedText = test;
         },
         openMenu() {
@@ -62,8 +65,11 @@ export default {
             document.querySelector('.md-editor').value = this.textTemplates[value];
             this.update(document.querySelector('.md-editor').value);
         },
-        updateDocName(name){
+        updateDocName(name) {
             this.documentData.name = name;
+        },
+        updatePageTitle(name) {
+            this.documentData.header = name;
         },
         download(type) {
             uriConvert(this.markedText).then((data) => {
@@ -77,17 +83,10 @@ export default {
                         text = text.replace(data.url, data.uri)
                     }
                 }
-                var file = new File([text], {type: "text/plain;charset=utf-8"});
-                saveAs(file, this.documentData.name+'.html')
-
-                /*    console.log(text)
-                    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-                    element.setAttribute('download', this.documentData.name + ".html");
-                    element.style.display = 'none';
-                    document.body.appendChild(element);
-                    element.click();
-                    document.body.removeChild(element);
-                    */
+                var file = new File([text], {
+                    type: "text/plain;charset=utf-8"
+                });
+                saveAs(file, this.documentData.name + '.html')
             });
         },
         makeP() {
@@ -102,8 +101,8 @@ export default {
                         text = text.replace(data.url, data.uri)
                     }
                 }
-            makePDF(text, this.documentData.name);
-        });
+                makePDF(text, this.documentData.name);
+            });
         }
     },
     template: `
@@ -113,7 +112,8 @@ export default {
             <mdEditor :change="update" :tab="insertTab" :data="this.text"/>
             <mdViewer :data="this.markedText"/>
         </div>
-            <settings v-if="this.menuStatus" :docdata='this.documentData' :styled='this.styledTemplates' :text='this.textTemplates' :handle='{updateDocName, changeStyledTemplate, changeTextTemplate, download, makeP}' />
+            <customViewer :elements='this.elements'/>
+            <settings v-if="this.menuStatus" :docdata='this.documentData' :styled='this.styledTemplates' :text='this.textTemplates' :handle='{updateDocName, updatePageTitle, changeStyledTemplate, changeTextTemplate, download, makeP}' />
         </div>
     `
 }
