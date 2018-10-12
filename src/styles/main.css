@@ -149,3 +149,27 @@ App{
     z-index: 1;
 
 }
+
+#custom-viewer{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 3px solid #35495e;
+    padding: 3em;
+    border-radius: 8px;
+    font-size: 1.5em;
+}
+
+#custom-viewer .exit{
+    position: absolute;
+    top: -10px; left: 10px;
+    color: red;
+}
+
+#custom-viewer .exit:hover{
+
+    color: black;
+    cursor: pointer;
+}

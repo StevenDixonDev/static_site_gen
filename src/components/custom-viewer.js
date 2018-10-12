@@ -1,9 +1,10 @@
 
 export default {
-    props: ['elements'],
+    props: ['elements', 'toggle'],
     template: `
-    <div>
+    <div id='custom-viewer'>
         <p v-for="keys in Object.keys(elements)"> ::: {{keys}} :::</p>
+        <p class='exit' @click='toggle'>X</p>
     </div>
     `
 }

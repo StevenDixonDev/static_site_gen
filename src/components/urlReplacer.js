@@ -1,7 +1,6 @@
 function urlReplacer(data){
     let matchString = /<p><img[\s.]*.*['|"].*['|"].*<\/p>/gm;
     let matched = data.match(matchString) || [];
-    //console.log(matched)
     let dataURL, ctx, img, canvas, end, url;
     let promises = [];
     if(matched.length > 0){
@@ -9,12 +8,11 @@ function urlReplacer(data){
             let index = data.indexOf(item);
             let start = data.indexOf('src='); //+4
             let i = start+5;
-            while(data[i] !== '\"'){
+            while(!/('|")/.test(data[i])){
                 end = i;
                 i++;
             }
             url = data.slice(start+5, end+1).toString();
-            console.log(url)
             data = data.replace('item', '');
             promises.push(
                 new Promise((resolve, reject)=>{
@@ -41,7 +39,7 @@ function urlReplacer(data){
     if(promises.length > 0){
         return Promise.all(promises);
     }else{
-        return new Promise((resolve, reject)=>{ resolve("done")});
+        return new Promise((resolve, reject)=>{resolve("done")});
     }
 }
 

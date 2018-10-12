@@ -24,7 +24,8 @@ export default {
                 name: 'newDocument',
                 header: 'Custom Page',
             },
-            elements: {}
+            elements: {},
+            cview: false
         }
     },
     mounted() {
@@ -53,25 +54,28 @@ export default {
             let test = theMangler(this.text, customElements, head, `<style>${this.styledTemplates[this.currentStyleTemplate]}</style>`);
             this.markedText = test;
         },
-        openMenu() {
+        toggleMenu() {
             this.menuStatus = !this.menuStatus;
         },
-        changeStyledTemplate(value) {
-            this.currentStyleTemplate = value;
+        toggleCustomView(){
+            this.cview = !this.cview;
+        },
+        changeStyledTemplate(e) {
+            this.currentStyleTemplate = e.target.value;
             this.update(this.text);
         },
-        changeTextTemplate(value) {
-            this.currentTextTemplate = value;
-            document.querySelector('.md-editor').value = this.textTemplates[value];
+        changeTextTemplate(e) {
+            this.currentTextTemplate = e.target.value;
+            document.querySelector('.md-editor').value = this.textTemplates[e.target.value];
             this.update(document.querySelector('.md-editor').value);
         },
-        updateDocName(name) {
-            this.documentData.name = name;
+        updateDocName(e) {
+            this.documentData.name = e.target.value;
         },
-        updatePageTitle(name) {
-            this.documentData.header = name;
+        updatePageTitle(e) {
+            this.documentData.header = e.target.value;
         },
-        download(type) {
+        generateHTML(type) {
             uriConvert(this.markedText).then((data) => {
                 let text = this.markedText.slice();
                 if (data !== 'done') {
@@ -89,7 +93,7 @@ export default {
                 saveAs(file, this.documentData.name + '.html')
             });
         },
-        makeP() {
+        generatePDF() {
             uriConvert(this.markedText).then((data) => {
                 let text = this.markedText.slice();
                 if (data !== 'done') {
@@ -107,13 +111,13 @@ export default {
     },
     template: `
         <div>
-        <banner :onClick="openMenu"/>
+        <banner :onClick="toggleMenu"/>
         <div class='page-wrapper'>
             <mdEditor :change="update" :tab="insertTab" :data="this.text"/>
             <mdViewer :data="this.markedText"/>
         </div>
-            <customViewer :elements='this.elements'/>
-            <settings v-if="this.menuStatus" :docdata='this.documentData' :styled='this.styledTemplates' :text='this.textTemplates' :handle='{updateDocName, updatePageTitle, changeStyledTemplate, changeTextTemplate, download, makeP}' />
+            <customViewer v-if='this.cview' :elements='this.elements' :toggle='toggleCustomView'/>
+            <settings v-if="this.menuStatus" :docdata='this.documentData' :styled='this.styledTemplates' :text='this.textTemplates' :handle='{updateDocName, updatePageTitle, changeStyledTemplate, changeTextTemplate, generateHTML, generatePDF, toggleCustomView}' />
         </div>
     `
 }
