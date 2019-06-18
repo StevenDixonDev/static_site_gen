@@ -1,4 +1,4 @@
-const templates = {
+export const templates = {
 none: '',
 documentation: `::: title
 Title Here
@@ -22,8 +22,7 @@ Information Here
 ---
 
     `,
-machineInfo: `
-::: title
+machineInfo: `::: title
 Machine Name
 :::
 
@@ -47,7 +46,7 @@ Machine Name
 
 short info here
 
-![test](./src/config/placeholder.png)
+![test](https://via.placeholder.com/150)
 
 :::
 
@@ -102,4 +101,3 @@ list of os here
 `
 }
 
-export default templates;

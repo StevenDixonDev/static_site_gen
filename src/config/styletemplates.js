@@ -1,4 +1,4 @@
-const templates  = {
+export const styledTemplates  = {
     cgs: `
     *{
         font-family: Source Sans Pro,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -219,6 +219,4 @@ const templates  = {
         border: 1px solid #373d49;
     }
     `
-}
-
-export default templates
+};

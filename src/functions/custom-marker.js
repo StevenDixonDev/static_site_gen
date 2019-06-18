@@ -1,5 +1,5 @@
 function custom(markdown, customElements ,header='<head><title>static page</title></head>', styles= ''){
-    let matchString = /:::\s[a-z]*\n[\s\S]*?\n:::/gm;
+    let matchString = /:{3}\s[a-z]*\n[\s\S]*?\n:{3}/gm;
     let matched = markdown.match(matchString) || [];
     let output = [];
     if (matched.length > 0) {
@@ -22,7 +22,6 @@ function custom(markdown, customElements ,header='<head><title>static page</titl
 function replaceCustom(markdown, filtered, customElements){
     let temp = markdown.slice();
     for (let items in filtered) {
-        //console.log(filtered[items].item);
         temp = temp.replace(filtered[items].item, customElements[filtered[items].element](filtered[items].data));
     }
     return temp;

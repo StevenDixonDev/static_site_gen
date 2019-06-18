@@ -1,24 +1,32 @@
+:root {
+    --primary: #00685a;
+    --secondary: #003d35;
+    --text: #e7fffc;
+}
+
 *{
     box-sizing: border-box;
 }
 
-html, body{
+html, body, main{
     margin: 0;
     padding: 0;
-    background-color: #373d49;
+    background-color: var(--primary);
     overflow-x: hidden;
+    height: 100vh;
+    display: relative;
 }
-App{
+
+#App{
     margin: 0;
     padding: 0;
     display: flex;
-    background-color: #35495e;
-    
+    background-color: var(--primary);
 }
 
 #banner{
     margin-top: 0;
-    background-color: #35495e;
+    background-color: var(--primary);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -26,13 +34,13 @@ App{
 
 #banner h1{
     margin: 0;
-    color: #42b883;
+    color: var(--text);
     padding: .5em;
 }
 
 #banner i {
     display: block;
-    font-size: 2em;
+    font-size: 2rem;
     padding-top: .5em;
     padding-right: 1em;
     color: white;
@@ -48,48 +56,60 @@ App{
     padding-left:.5em;
     padding-right:.5em;
     justify-content: space-around;
+    
 }
 
 .md-viewer{
-    flex-basis: 49%;
-    border: 1px solid black;
-    min-height: 90vh;
+    height: 90vh;
     overflow: scroll;
     padding: 0;
-    margin: 0;
+    margin: 0 .1em;
     background-color: #fff;
+    flex: 3;
 }
 
 .md-editor{
-    flex-basis: 49%;
+    height: 90vh;
     resize: none;
-    overflow: scroll;
     padding: 5px;
     font-size: 1.3em;
+    flex: 2;
+    margin: 0 .1em;
 }
 
 #settings {
-    margin-left: -24rem;
-    padding-left: -24rem;
-    width: 0;
-    position: absolute;
-    top: 3em;
-    right: 0;
-    height: 80vh;
-    background-color: #35495e;
+    max-width: 180px;
+    height: 100%;
+    flex: 1;
+    background-color: var(--primary);
     display: flex;
     flex-direction: column;
     animation: .8s swingleft forwards;
+    justify-content: center;
+    align-items: center
 }
 
 
 #settings > * {
-    color: #42b883;
-    padding-left: .1em;
-    margin: .5em;
+    color: var(--text);
+    width: 80%;
+    margin-top: .5em;
     animation-delay: 7s;
     animation: 2s fadein forwards;
-    font-size: 1.2em;
+    font-size: 1.2rem;
+}
+
+#settings h2{
+    font-size: 2rem;
+    margin: 0 auto;
+}
+
+#settings input[type='text']{
+    width: 100%;
+}
+
+#settings > button {
+    color: black;
 }
 
 #settings button{
@@ -98,13 +118,12 @@ App{
 }
 
 #settings select{
-    width: 100%;;
+    width: 100%;
 }
 
 #settings a:hover {
     text-decoration: underline;
 }
-
 
 @keyframes swingleft{
     0% {
@@ -132,7 +151,7 @@ App{
 
 .pdfload{
     position: absolute;
-    color: #42b883;
+    color: var(--text);
     top: 35%;
     left: 45%;
     font-size: 10em;
@@ -156,7 +175,7 @@ App{
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    border: 3px solid #35495e;
+    border: 3px solid var(--primary);
     padding: 3em;
     border-radius: 8px;
     font-size: 1.5em;
@@ -169,7 +188,6 @@ App{
 }
 
 #custom-viewer .exit:hover{
-
     color: black;
     cursor: pointer;
 }
