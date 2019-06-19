@@ -2,9 +2,11 @@ import mdViewer from './components/md-box.js';
 import mdEditor from './components/md-editor.js';
 import banner from './components/banner.js';
 import {settingMenu} from './components/setting.js';
-import theMangler from './functions/custom-marker.js';
+import {updatedCustom} from './functions/custom-marker.js';
 import customViewer from './components/custom-viewer.js';
-import {templates, customElements, styledTemplates} from './config/index.js'
+import {templates, customElements, styledTemplates} from './config/index.js';
+
+// @todo found bug editor loses focus when updating js or css tags
 
 export default { 
     data() {
@@ -34,15 +36,12 @@ export default {
         }
     },
     watch:{
-        //watch the editor text
-        editorText: function(e){
-            //update the viewer output whenever the editorText is changed
-        }
     },
     computed: {
         fixedMarkedText: function(e){
-            let head = `<head><title>${this.documentData.header}</title></head>`
-            return  theMangler(this.editorText, customElements, head, `<style>${styledTemplates[this.currentStyleTemplate]}</style>`);
+            let head = `<title>${this.documentData.header}</title>`;
+            return updatedCustom(this.editorText, head, styledTemplates[this.currentStyleTemplate])
+            //theMangler(this.editorText, head, `<style>${styledTemplates[this.currentStyleTemplate]}</style>`);
         }
     },
     mounted() {
@@ -52,14 +51,16 @@ export default {
         mdEditor,
         banner,
         settingMenu,
-        customViewer,
-        styledTemplates
+        customViewer
     },
     methods: {
         update(e) {
-            this.editorText = e.target.value;
+            if(e.key === 'Enter' || e.key === 'Backspace'){
+                this.editorText = e.target.value;
+            }
+            
         },
-        toggleMenu() {
+        toggleMenu(e) {
             this.menus.settingMenuView = !this.menus.settingMenuView;
         },
         toggleCustomView(){
@@ -90,7 +91,7 @@ export default {
         <main>
             <banner :onClick="toggleMenu"/>
             <div class='page-wrapper'>
-                <mdEditor :change="update" :data="this.editorText"/>
+                <mdEditor :change="update" :data="this.editorText" />
                 <mdViewer :data="this.fixedMarkedText"/>
                 <settingMenu 
                 v-if="this.menus.settingMenuView" 
@@ -104,7 +105,11 @@ export default {
                 @changeStyledTemplate="this.changeStyledTemplate"
                 />
             </div>
-                <customViewer v-if='this.menus.customElementView' :elements='customElements' :toggle='toggleCustomView'/>
+                <customViewer 
+                v-if='this.menus.customElementView' 
+                :elements='customElements' 
+                :toggle='toggleCustomView'
+                />
         </main>
     `
 }
