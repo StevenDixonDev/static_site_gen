@@ -1,4 +1,4 @@
-import {customElements, quickInsertElement} from '../config/index.js';
+import {customElements, quickInsertElement, defaultElement} from '../config/index.js';
 
 // todo remove
 function custom(markdown, header='<head><title>static page</title></head>', styles= ''){
@@ -30,6 +30,8 @@ function replaceCustom(markdown, filtered, customElements){
     return temp;
 }
 
+///////////////////////////////////////////////////////
+
 export function updatedCustom(textToConvert, header='<head><title>static page</title></head>', styles='' ){
   // @ todo handle error where no custom elements exist
    
@@ -37,14 +39,15 @@ export function updatedCustom(textToConvert, header='<head><title>static page</t
   const css = textToConvert.match(/<style[\s\S]*?(<\/style>|\/>)/g) || [];
 
   const imports = textToConvert.match(/@import[\S\s]+?(\));?/g) || [];
-  // look for script tags and remove
+  // look for script tags and remove them 
   let outPut = textToConvert.replace(/<script[\s\S]*?(<\/script>|\/>)/g, '');
 
   outPut = outPut.replace(css, '');
   outPut = outPut.replace(imports, '');
-  // find in text all ::: id   :::, (layout tags) and convert them bases on
+
+  // find all ::: id   :::, (layout tags)
   let Check = new RegExp(/:{3} [\s\S]*?:{3}\n(?!:{3})/);
-  
+  // match one at a time
   let current = outPut.match(Check);
   
   // todo find a way to recursively do this so we can embed items inside
@@ -53,15 +56,16 @@ export function updatedCustom(textToConvert, header='<head><title>static page</t
     
     let splitTag = split[0].split(' ');
     
-    // add parameters to ::: id  :::
-    let directive = splitTag.slice(2, splitTag.length).join(" ") || '';
+    // get the rest of the data as classes
+    let classes = splitTag.slice(2, splitTag.length).join(" ") || '';
+
     let tag = splitTag[1];
     let replacer = customElements[tag];
-    if (!replacer) break;
+    if (!replacer) replacer = defaultElement(tag);
   
     let trimmed = '\n\n'+split.slice(1, split.length-2).join('\n')+'\n\n';
-    
-    let out = replacer(trimmed , directive) +'\n';
+    let out = replacer(trimmed, classes) +'\n';
+    console.log(out)
     outPut = outPut.replace(current, out);
     current = outPut.match(Check);
   }
@@ -109,7 +113,6 @@ function replaceSpecialHTML(){
 
 function generateHtml(head, body, style){
     return (`
-    <DOCTYPE html />
     <html lang="en">
     <head>
     <meta charset="UTF-8">

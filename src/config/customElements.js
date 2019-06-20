@@ -1,19 +1,26 @@
 export const customElements =  {
-    single: (data, classes)=>`<div class='single ${classes}'>${data}</div>`,
-    double: (data, classes)=>`<div class='double ${classes}'>${data}</div>`,
-    triple: (data, classes)=>`<div class='triple ${classes}' >${data}</div>`,
-    title: (data, classes)=>`<div class='title ${classes}'>${data}</div>`,
-    body: (data, classes)=>`<div class='body-div ${classes}'>${data}</div>`,
-    'nav': (data, classes)=>`<div class='nav ${classes}'>${data}</div>`,
-    'flex-1': (data, classes)=>`<div class='flex-1 ${classes}'>${data}</div>`,
-    'flex-2': (data, classes)=>`<div class='flex-2 ${classes}'>${data}</div>`,
-    'flex-3': (data, classes)=>`<div class='flex-3 ${classes}'>${data}</div>`,
-    'container': (data, classes)=>`<div class='container ${classes}'>${data}</div>`,
-    'item': (data, classes)=>`<div class='item ${classes}'>${data}</div>`
+    single: (content, classes)=>`<div class='single ${classes}'>${content}</div>`,
+    double: (content, classes)=>`<div class='double ${classes}'>${content}</div>`,
+    triple: (content, classes)=>`<div class='triple ${classes}' >${content}</div>`,
+    title: (content, classes)=>`<div class='title ${classes}'>${content}</div>`,
+    body: (content, classes)=>`<div class='body-div ${classes}'>${content}</div>`,
+    'nav': (content, classes)=>`<div class='nav ${classes}'>${content}</div>`,
+    'flex-1': (content, classes)=>`<div class='flex-1 ${classes}'>${content}</div>`,
+    'flex-2': (content, classes)=>`<div class='flex-2 ${classes}'>${content}</div>`,
+    'flex-3': (content, classes)=>`<div class='flex-3 ${classes}'>${content}</div>`,
+    'container': (content, classes)=>`<div class='container ${classes}'>${content}</div>`,
+    'item': (content, classes)=>`<div class='item ${classes}'>${content}</div>`
 
 }
 
 export const quickInsertElement = (tags, className, content) =>{
         //@-> p class content
     return `<${tags} class="${className}">${content}</${tags}>`
+}
+
+export const defaultElement = (tags) => {
+    return (content, className)=>{
+       return `<${tags} class="${className}">${content}</${tags}>`
+    }
+    
 }
