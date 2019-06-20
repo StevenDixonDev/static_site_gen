@@ -11,7 +11,7 @@ export default{
     template: `
     <textarea class='md-editor'
     v-on:keyup="change" 
-    v-on:keydown="this.insertTab" :value="data">
+    v-on:keydown="insertTab" :value="data">
     </textarea>
     `
 }

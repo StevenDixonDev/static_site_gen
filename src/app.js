@@ -73,7 +73,7 @@ export default {
     banner,
     settingMenu,
     customViewer,
-    codeMenu
+    codeMenu,
   },
   methods: {
     //sets a timer so that updates don't happen to quickly
@@ -124,11 +124,11 @@ export default {
     // creates and downloads the html when the setting button is clicked
     generateHTML() {
       let text = this.markedText.slice();
-      //create a file in the browser
+      // create a file in the browser
       let file = new File([text], {
         type: "text/plain;charset=utf-8"
       });
-      //save the created file
+      // save the created file
       saveAs(file, this.documentData.name + ".html");
     },
     downloadText() {
@@ -146,28 +146,28 @@ export default {
         <main>
             <banner :onClick="toggleMenu"/>
             <div class='page-wrapper'>
-                <mdEditor :change="update" :data="this.editorText" />
-                <mdViewer :data="this.fixedMarkedText"/>
+                <mdEditor :change="update" :data="editorText" />
+                <mdViewer :data="fixedMarkedText"/>
                 <settingMenu 
-                v-if="this.menus.settingMenuView" 
-                :docdata='this.documentData' 
+                v-if="menus.settingMenuView" 
+                :docdata='documentData' 
                 :styled='styledTemplates' 
                 :text='templates' 
                 :handle='{generateHTML}' 
-                @changeDocTitle="this.updatePageTitle"
-                @changeDocName="this.updateDocName"
-                @changeTextTemplate="this.changeTextTemplate"
-                @changeStyledTemplate="this.changeStyledTemplate"
-                @downloadText="this.downloadText"
+                @changeDocTitle="updatePageTitle"
+                @changeDocName="updateDocName"
+                @changeTextTemplate="changeTextTemplate"
+                @changeStyledTemplate="changeStyledTemplate"
+                @downloadText="downloadText"
                 />
                 <codeMenu 
-                v-if="this.menus.codeSettings"
+                v-if="menus.codeSettings"
                 @view-elements="toggleCustomView"
 
                 />
             </div>
                 <customViewer 
-                v-if='this.menus.customElementView' 
+                v-if='menus.customElementView' 
                 :elements='customElements' 
                 :toggle='toggleCustomView'
                 />

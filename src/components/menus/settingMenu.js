@@ -22,25 +22,25 @@ export const settingMenu = {
         <h3>Settings</h3>
         <hr />
         <label>Template Type:
-        <select v-on:change="this.changeStyledTemplate">
+        <select v-on:change="changeStyledTemplate">
             <option v-for="item of Object.keys(styled)" :value="item">{{item}}</option>
         </select>
         </label>
 
         <label>Template Text:
-        <select v-on:change="this.changeTextTemplate">
+        <select v-on:change="changeTextTemplate">
             <option v-for="item of Object.keys(text)" :value="item">{{item}}</option>
         </select>
         </label>
         
         <label>Doc Name:
-        <input type='text' v-on:keyup='this.changeDocName' :value='docdata.name'></input>
+        <input type='text' v-on:keyup='changeDocName' :value='docdata.name'></input>
         </label>
 
         <label>Page Title:
-        <input type='text' v-on:keyup='this.changeDocTitle' :value='docdata.header'></input>
+        <input type='text' v-on:keyup='changeDocTitle' :value='docdata.header'></input>
         </label>
-        <button v-on:click="handle.generateHTML">Download HTML</button>
-        <button v-on:click="this.downloadText">Download Text</button>
+        <button @click="handle.generateHTML">Download HTML</button>
+        <button @click="downloadText">Download Text</button>
     </div>`
 }

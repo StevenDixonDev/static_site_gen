@@ -1,4 +1,3 @@
-
 export default {
     props: ['elements', 'toggle'],
     template: `
