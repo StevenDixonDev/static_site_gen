@@ -1,93 +1,148 @@
-import mdViewer from './components/md-box.js';
-import mdEditor from './components/md-editor.js';
-import banner from './components/banner.js';
-import {settingMenu} from './components/setting.js';
-import {updatedCustom} from './functions/custom-marker.js';
-import customViewer from './components/custom-viewer.js';
-import {templates, customElements, styledTemplates} from './config/index.js';
+import mdViewer from "./components/md-box.js";
+import mdEditor from "./components/md-editor.js";
+import banner from "./components/banner.js";
+import { settingMenu, codeMenu } from "./components/menus/index.js";
+import { updatedCustom } from "./functions/custom-marker.js";
+import customViewer from "./components/custom-viewer.js";
+import { templates, customElements, styledTemplates } from "./config/index.js";
 
 // @todo found bug editor loses focus when updating js or css tags
 
-export default { 
-    data() {
-        return {
-            // text located in editor section
-            editorText: '',
-            // text that is processed for output section
-            markedText: '',
-            // current css styles
-            currentStyleTemplate: 'cgs',
-            // curent text template
-            currentTextTemplate: 'none',
-            // meta data for the output html document
-            documentData: {
-                name: 'newDocument',
-                header: 'Custom Page',
-            },
-            //list of menus
-            menus: {
-                customElementView: false,
-                settingMenuView: false,
-            },
-            //imported objects
-            templates, 
-            customElements, 
-            styledTemplates
-        }
+export default {
+  data() {
+    return {
+      // text located in editor section
+      editorText: "",
+      // text that is processed for output section
+      markedText: "",
+      // current css styles
+      currentStyleTemplate: "cgs",
+      // curent text template
+      currentTextTemplate: "none",
+      // timer for updates so they don't fire too quickly
+      updateClock: null,
+      // meta data for the output html document
+      documentData: {
+        name: "newDocument",
+        header: "Custom Page"
+      },
+      //list of menus
+      menus: {
+        customElementView: false,
+        settingMenuView: false,
+        codeSettings: false
+      },
+      //imported objects
+      templates,
+      customElements,
+      styledTemplates
+    };
+  },
+  watch: {},
+  computed: {
+    // updates output window when editor text is updated
+    fixedMarkedText: function(e) {
+      let head = `<title>${this.documentData.header}</title>`;
+      this.markedText = updatedCustom(
+        this.editorText,
+        head,
+        styledTemplates[this.currentStyleTemplate]
+      );
+      return this.markedText;
+    }
+  },
+  mounted() {
+      // get previous sesssion information from storage
+    let previousSessionFetch = localStorage.getItem("editorText");
+    // check if the previous session had any data
+    if (previousSessionFetch) {
+        // get the user to confirm the load
+        // todo replace with custom confirm box
+      let userConfirm = confirm(
+        "Previous session found, would you like to load the data?"
+      );
+      // if user wants the previous data load it into the editor
+      if (userConfirm) {
+        this.editorText = previousSessionFetch;
+      }
+    }
+  },
+  components: {
+    mdViewer,
+    mdEditor,
+    banner,
+    settingMenu,
+    customViewer,
+    codeMenu
+  },
+  methods: {
+    //sets a timer so that updates don't happen to quickly
+    update(e) {
+        // if clock is not null the clock needs to be cleared
+      if (this.updateClock) {
+        clearTimeout(this.updateClock);
+      }
+      // create a new clock 
+      this.updateClock = setTimeout(() => {
+        this.editorText = e.target.value;
+        // set updated editor text to the new value
+        localStorage.setItem("editorText", this.editorText);
+      }, 300);
     },
-    watch:{
+    // toggles the code menu and the settings menu
+    toggleMenu(e) {
+      if (e.target.id === "settings") {
+        this.menus.settingMenuView = !this.menus.settingMenuView;
+        this.menus.codeSettings = false;
+      }
+      if (e.target.id === "code") {
+        this.menus.codeSettings = !this.menus.codeSettings;
+        this.menus.settingMenuView = false;
+      }
     },
-    computed: {
-        fixedMarkedText: function(e){
-            let head = `<title>${this.documentData.header}</title>`;
-            return updatedCustom(this.editorText, head, styledTemplates[this.currentStyleTemplate])
-            //theMangler(this.editorText, head, `<style>${styledTemplates[this.currentStyleTemplate]}</style>`);
-        }
+    // opens the custom element viewer
+    toggleCustomView() {
+      this.menus.customElementView = !this.menus.customElementView;
     },
-    mounted() {
+    // menu item to that sets the css for the page
+    changeStyledTemplate(value) {
+      this.currentStyleTemplate = value;
     },
-    components: {
-        mdViewer,
-        mdEditor,
-        banner,
-        settingMenu,
-        customViewer
+    // pregenerated page layouts
+    changeTextTemplate(value) {
+      this.currentTextTemplate = value;
+      this.editorText = templates[value];
     },
-    methods: {
-        update(e) {
-            if(e.key === 'Enter' || e.key === 'Backspace'){
-                this.editorText = e.target.value;
-            }
-            
-        },
-        toggleMenu(e) {
-            this.menus.settingMenuView = !this.menus.settingMenuView;
-        },
-        toggleCustomView(){
-            this.menus.customElementView = !this.menus.customElementView;
-        },
-        changeStyledTemplate(value) {
-            this.currentStyleTemplate = value;
-        },
-        changeTextTemplate(value) {
-            this.currentTextTemplate = value;
-            this.editorText = templates[value];
-        },
-        updateDocName(value) {
-            this.documentData.name = value;
-        },
-        updatePageTitle(value) {
-            this.documentData.header = value;
-        },
-        generateHTML() {
-            let text = this.markedText.slice();
-                var file = new File([text], {
-                    type: "text/plain;charset=utf-8"
-                });
-            saveAs(file, this.documentData.name + '.html')
-        },
+    // sets the name of the html doc
+    updateDocName(value) {
+      this.documentData.name = value;
     },
-    template: `
+    // sets the page title for the html page
+    updatePageTitle(value) {
+      this.documentData.header = value;
+    },
+    // creates and downloads the html when the setting button is clicked
+    generateHTML() {
+      let text = this.markedText.slice();
+      //create a file in the browser
+      let file = new File([text], {
+        type: "text/plain;charset=utf-8"
+      });
+      //save the created file
+      saveAs(file, this.documentData.name + ".html");
+    },
+    downloadText() {
+      // properly format text file for windows
+      let formatedText = this.editorText.replace(/\n/g, "\r\n");
+      //create a file in the browser
+      let file = new File([formatedText], {
+        type: "text/plain;charset=utf-8"
+      });
+      //save the created file
+      saveAs(file, this.documentData.name + ".txt");
+    }
+  },
+  template: `
         <main>
             <banner :onClick="toggleMenu"/>
             <div class='page-wrapper'>
@@ -98,11 +153,17 @@ export default {
                 :docdata='this.documentData' 
                 :styled='styledTemplates' 
                 :text='templates' 
-                :handle='{generateHTML, toggleCustomView}' 
+                :handle='{generateHTML}' 
                 @changeDocTitle="this.updatePageTitle"
                 @changeDocName="this.updateDocName"
                 @changeTextTemplate="this.changeTextTemplate"
                 @changeStyledTemplate="this.changeStyledTemplate"
+                @downloadText="this.downloadText"
+                />
+                <codeMenu 
+                v-if="this.menus.codeSettings"
+                @view-elements="toggleCustomView"
+
                 />
             </div>
                 <customViewer 
@@ -112,4 +173,4 @@ export default {
                 />
         </main>
     `
-}
+};

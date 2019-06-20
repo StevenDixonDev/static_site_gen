@@ -44,25 +44,30 @@ export function updatedCustom(textToConvert, header='<head><title>static page</t
   outPut = outPut.replace(imports, '');
   // find in text all ::: id   :::, (layout tags) and convert them bases on
   let Check = new RegExp(/:{3} [\s\S]*?:{3}\n(?!:{3})/);
+  
   let current = outPut.match(Check);
+  
   // todo find a way to recursively do this so we can embed items inside
   while(current !== null){
     let split = current[0].split('\n');
+    
     let splitTag = split[0].split(' ');
-    // add parameters to ::: id @->styles[] :::
+    
+    // add parameters to ::: id  :::
     let directive = splitTag.slice(2, splitTag.length).join(" ") || '';
     let tag = splitTag[1];
     let replacer = customElements[tag];
     if (!replacer) break;
-    let trimmed = '\n' + split.slice(1, split.length-2).join('\n');
-    let out = replacer(trimmed , directive);
+  
+    let trimmed = '\n\n'+split.slice(1, split.length-2).join('\n')+'\n\n';
+    
+    let out = replacer(trimmed , directive) +'\n';
     outPut = outPut.replace(current, out);
     current = outPut.match(Check);
   }
-
+  
   // quick insert replacement section 
   let quickInserts = outPut.match(/\@\-\>[\s\S]*?\n/g) || [];
-  console.log(quickInserts)
   outPut = formatInserts(outPut, quickInserts);
 
   // throw result into marked.js
@@ -76,14 +81,11 @@ function formatInserts(content, qi){
     qi.forEach(item =>{
       //remove the tag
       let r = item.replace('@-> ', '');
-      console.log(r)
       //split r by spaces
       let splitR = r.split(' ');
       let replacer = quickInsertElement(splitR[0], splitR[1], splitR.slice(2, splitR.length).join(" "))
-      console.log(replacer)
-      console.log(item)
       outPut = outPut.replace(item, replacer);
-      console.log(outPut)
+    
     })
   }
   return outPut;
@@ -107,8 +109,12 @@ function replaceSpecialHTML(){
 
 function generateHtml(head, body, style){
     return (`
-    <html>
+    <DOCTYPE html />
+    <html lang="en">
     <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     ${head}
     ${style}
     </head>

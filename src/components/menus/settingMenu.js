@@ -1,4 +1,4 @@
-export const settingMenu ={
+export const settingMenu = {
     props: ['styled', 'text', 'handle', 'docdata'],
     methods:{
         changeDocName(e){
@@ -12,11 +12,14 @@ export const settingMenu ={
         },
         changeStyledTemplate(e){
             this.$emit('changeStyledTemplate', e.target.value);
+        },
+        downloadText(e){
+            this.$emit('downloadText');
         }
     },
     template: `
-    <div id="settings">
-        <h2>Settings</h2>
+    <div class="settings">
+        <h3>Settings</h3>
         <hr />
         <label>Template Type:
         <select v-on:change="this.changeStyledTemplate">
@@ -38,6 +41,6 @@ export const settingMenu ={
         <input type='text' v-on:keyup='this.changeDocTitle' :value='docdata.header'></input>
         </label>
         <button v-on:click="handle.generateHTML">Download HTML</button>
-        <button v-on:click="handle.toggleCustomView">View Custom Elements</button>
+        <button v-on:click="this.downloadText">Download Text</button>
     </div>`
 }

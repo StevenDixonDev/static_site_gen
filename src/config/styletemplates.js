@@ -170,7 +170,7 @@ export const styledTemplates  = {
         display: flex;
         justify-content: space-around;
     }
-    .double *{
+    .double > *{
         flex-basis: 45%;
         text-align: center;
     }
