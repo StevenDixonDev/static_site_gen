@@ -17,6 +17,8 @@ export default {
       markedText: "",
       // current css styles
       currentStyleTemplate: "cgs",
+      //
+      styleTemplateText: '',
       // curent text template
       currentTextTemplate: "none",
       // timer for updates so they don't fire too quickly
@@ -38,7 +40,12 @@ export default {
       styledTemplates
     };
   },
-  watch: {},
+  watch: {
+    //changes the template text 
+    currentStyleTemplate: function(){
+      this.styleTemplateText = this.styledTemplates[this.currentStyleTemplate.trim()];
+    }
+  },
   computed: {
     // updates output window when editor text is updated
     fixedMarkedText: function(e) {
@@ -46,10 +53,10 @@ export default {
       this.markedText = updatedCustom(
         this.editorText,
         head,
-        styledTemplates[this.currentStyleTemplate]
+        this.styleTemplateText
       );
       return this.markedText;
-    }
+    },
   },
   mounted() {
       // get previous sesssion information from storage
@@ -66,6 +73,15 @@ export default {
         this.editorText = previousSessionFetch;
       }
     }
+    //events dispatched from custom marker for meta tags
+    document.querySelector('body').addEventListener('meta-trigger', (e)=>{
+      switch(e.detail.type){
+        case 'type': this.changeStyledTemplate(e.detail.data); break;
+        case 'docname': this.updateDocName(e.detail.data); break;
+        case 'title': this.updatePageTitle(e.detail.data); break;
+      }
+      
+    })
   },
   components: {
     mdViewer,
@@ -107,6 +123,8 @@ export default {
     // menu item to that sets the css for the page
     changeStyledTemplate(value) {
       this.currentStyleTemplate = value;
+      //styleTemplateText = [value];
+      //this.update(this.editorText);
     },
     // pregenerated page layouts
     changeTextTemplate(value) {
@@ -150,8 +168,9 @@ export default {
                 <mdViewer :data="fixedMarkedText"/>
                 <settingMenu 
                 v-if="menus.settingMenuView" 
+                :current="currentStyleTemplate"
                 :docdata='documentData' 
-                :styled='styledTemplates' 
+                :styled='this.styledTemplates' 
                 :text='templates' 
                 :handle='{generateHTML}' 
                 @changeDocTitle="updatePageTitle"

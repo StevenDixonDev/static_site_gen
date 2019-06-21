@@ -1,5 +1,5 @@
 export const settingMenu = {
-    props: ['styled', 'text', 'handle', 'docdata'],
+    props: ['styled', 'text', 'handle', 'docdata', 'current'],
     methods:{
         changeDocName(e){
             this.$emit('changeDocName', e.target.value);
@@ -10,19 +10,36 @@ export const settingMenu = {
         changeTextTemplate(e){
             this.$emit('changeTextTemplate', e.target.value);
         },
-        changeStyledTemplate(e){
-            this.$emit('changeStyledTemplate', e.target.value);
+        changeStyledTemplate(value){
+            this.$emit('changeStyledTemplate', value);
         },
         downloadText(e){
             this.$emit('downloadText');
         }
+    },
+    computed:{
+        currentT: {
+            set: function(value){
+                this.changeStyledTemplate(value.trim())
+            },
+            get: function(){
+                return this.current.trim();
+            }
+        }
+    },
+    mounted() {
+        //console.log(this.styled.documentation);
+        console.log(this.current)
+        //documentation
+        //documentation
+
     },
     template: `
     <div class="settings">
         <h3>Settings</h3>
         <hr />
         <label>Template Type:
-        <select v-on:change="changeStyledTemplate">
+        <select v-model="currentT" :value="currentT">
             <option v-for="item of Object.keys(styled)" :value="item">{{item}}</option>
         </select>
         </label>
