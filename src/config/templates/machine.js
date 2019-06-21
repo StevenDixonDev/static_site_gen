@@ -1,28 +1,9 @@
-export const templates = {
-none: '',
-documentation: `::: title
-Title Here
-:::
+export default `
+@meta type machines
+@meta docname Machine
+@meta title Machine Info
 
-::: double
-
-**Name**
-
-**Date**
-
-:::
-
-::: body
-
-### Here is how it works
-
-Information Here
-:::
-
----
-
-    `,
-machineInfo: `::: title
+::: title
 Machine Name
 :::
 
@@ -98,6 +79,5 @@ list of os here
 
 [PSREF]()
 :::
-`
-}
+`;
 

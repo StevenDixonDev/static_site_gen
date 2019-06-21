@@ -1,10 +1,10 @@
-import cgs from './cgs.js';
+import bootstrap from './bootstrap.js';
 import machines from './machines.js';
 import documentation from './documentation.js';
 
 export const styledTemplates = {
   none: '',
-  cgs,
+  bootstrap,
   machines,
   documentation
 }
