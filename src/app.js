@@ -16,7 +16,7 @@ export default {
       // text that is processed for output section
       markedText: "",
       // current css styles
-      currentStyleTemplate: "cgs",
+      currentStyleTemplate: "none",
       //
       styleTemplateText: '',
       // curent text template
@@ -41,7 +41,7 @@ export default {
     };
   },
   watch: {
-    //changes the template text 
+    //changes the template text when current style is updated
     currentStyleTemplate: function(){
       this.styleTemplateText = this.styledTemplates[this.currentStyleTemplate.trim()];
     }
@@ -80,16 +80,7 @@ export default {
         case 'docname': this.updateDocName(e.detail.data); break;
         case 'title': this.updatePageTitle(e.detail.data); break;
       }
-      
     })
-  },
-  components: {
-    mdViewer,
-    mdEditor,
-    banner,
-    settingMenu,
-    customViewer,
-    codeMenu,
   },
   methods: {
     //sets a timer so that updates don't happen to quickly
@@ -159,6 +150,14 @@ export default {
       //save the created file
       saveAs(file, this.documentData.name + ".txt");
     }
+  },
+  components: {
+    mdViewer,
+    mdEditor,
+    banner,
+    settingMenu,
+    customViewer,
+    codeMenu,
   },
   template: `
         <main>

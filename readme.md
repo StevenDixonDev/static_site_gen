@@ -30,6 +30,26 @@ Users are able to write webpages using predefined templates and markdown.
 
 This tool uses the standard markdown language. emojis are not supported currently.
 
+#### Meta
+
+The tool allow the user to specify a few meta items for the document through the meta tag.
+
+```
+@meta type bootstrap
+@meta docname mydocsname
+@meta title My page title
+```
+
+type sets the css template to use when displaying the document.
+
+docname sets the name for the download
+
+title sets the title in the header 
+
+* these are removed during processing so they will not be present in any downloaded html. I would suggest
+downloading the text file version as well if you need to edit the document later.
+
+
 #### Custom tags
 
 All custom layout tags start with ::: and end with :::
@@ -77,11 +97,11 @@ The follow will create divs with a class name related to the name
 
 Users are able to insert small single line elements with @->.
 
-syntax is `@-> element className content`
+syntax is `@->(element)[classes][data]`
 
 ``` 
 
-@-> h1 red I am a h1 with a red class 
+@->(i)[fa-ship][] 
 
 ```
 

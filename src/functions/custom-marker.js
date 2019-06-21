@@ -2,7 +2,6 @@ import { customElements, quickInsertElement, defaultElement } from '../config/in
 
 export function updatedCustom(textToConvert, header = '<head><title>static page</title></head>', styles = '') {
   // start with just plain text
-
   // get all css tags
   const css = textToConvert.match(/<style[\s\S]*?(<\/style>|\/>)/g) || [];
   // get all import tags
@@ -13,12 +12,10 @@ export function updatedCustom(textToConvert, header = '<head><title>static page<
   outPut = outPut.replace(css, '');
   //remove all import tags
   outPut = outPut.replace(imports, '');
-
   // find all ::: id   :::, (layout tags)
   let Check = new RegExp(/:{3} [\s\S]*?:{3}\n(?!:{3})/);
   // match one at a time
   let current = outPut.match(Check);
-
   // todo find a way to recursively do this so we can embed items inside
   while (current !== null) {
     // split the first element in the match 
@@ -42,7 +39,6 @@ export function updatedCustom(textToConvert, header = '<head><title>static page<
     // check for any matches
     current = outPut.match(Check);
   }
-
   // meta insert replacement section
   let allTags = []
   // match one at a time
@@ -55,19 +51,16 @@ export function updatedCustom(textToConvert, header = '<head><title>static page<
     // check for more tags
     metaTags = outPut.match(/\@meta[\s\S]*?\n/);
   }
-
   //pass all meta tags into their handler
   handleMetaTags(allTags);
   // quick insert replacement section 
   let quickInserts = outPut.match(/\@\-\>[\s\S]*?\n/g) || [];
   // replace changed inserts in output
   outPut = formatInserts(outPut, quickInserts);
-
   // throw result into marked.js
   return generateHtml(header, outPut, formatCSS(css, styles, imports));
   // look for style tags or @[] tags move them into a variable and remove them from text
 }
-
 
 function handleMetaTags(tagArr) {
   //sends meta data to the app
@@ -77,7 +70,7 @@ function handleMetaTags(tagArr) {
     if (splitTag.length > 1) {
       let meta = splitTag[1];
       let data = splitTag.slice(2, splitTag.length).join(" ");
-      let event = new CustomEvent("meta-trigger", { detail: {type: meta, data: data } });
+      let event = new CustomEvent("meta-trigger", { detail: { type: meta, data: data } });
       document.querySelector('body').dispatchEvent(event);
     } else {
       throw `tag ${tag.replace('\n', '')} is not formatted correctly`
@@ -90,11 +83,28 @@ function formatInserts(content, qi) {
   if (qi.length > 0) {
     qi.forEach(item => {
       //remove the tag
-      let r = item.replace('@-> ', '');
+      let removedInsert = item.replace(/@->[\s]*/, '');
       //split r by spaces
-      let splitR = r.split(' ');
-      let replacer = quickInsertElement(splitR[0], splitR[1], splitR.slice(2, splitR.length).join(" "))
-      outPut = outPut.replace(item, replacer);
+      let elementTag = removedInsert.match(/\(.+\)/) || null;
+      if (elementTag) {
+        elementTag = elementTag[0];
+        // strip paranthesis from the element tag
+        let strippedElement = elementTag.replace(/\(|\)/g, '');
+        // update removed insert
+        removedInsert = removedInsert.replace(elementTag, '');
+
+        let splitR = removedInsert.split(/(?<=\])/);
+
+        let classes = splitR[0].replace(/\[|\]/g, '');
+
+        let content = splitR.slice(1, splitR.length).join("");
+
+        let replacer = quickInsertElement(strippedElement, classes, content);
+
+        outPut = outPut.replace(item, replacer);
+      } else {
+        throw `Error with insert tag ${item}`;
+      }
     })
   }
   return outPut;
