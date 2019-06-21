@@ -23,7 +23,6 @@ Users are able to write webpages using predefined templates and markdown.
 
 - Depending how the CSS is written may affect how the webpages are displayed in the browser of your choice.
 
-
 ### Documentation
 
 #### Marked/MarkDown
@@ -35,9 +34,11 @@ This tool uses the standard markdown language. emojis are not supported currentl
 The tool allow the user to specify a few meta items for the document through the meta tag.
 
 ```
+
 @meta type bootstrap
 @meta docname mydocsname
 @meta title My page title
+
 ```
 
 type sets the css template to use when displaying the document.
@@ -95,13 +96,15 @@ The follow will create divs with a class name related to the name
 
 **Quick inserts**
 
-Users are able to insert small single line elements with @->.
+Users are able to insert small single line elements with @->. This tag is newline terminated so everything will need to be on one line.
 
-syntax is `@->(element)[classes][data]`
+syntax is `@->(element)[classes]data`
 
 ``` 
 
-@->(i)[fa-ship][] 
+@->(i)[fa fa-ship]
+
+@->(p)[red] I am a red p
 
 ```
 
